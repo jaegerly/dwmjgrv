@@ -1,10 +1,10 @@
 // jgr //
 #include <X11/XF86keysym.h>
 /* appearance */
-static const unsigned int borderpx       = 4;   /* border pixel of windows */
+static const unsigned int borderpx       = 3;   /* border pixel of windows */
 static const unsigned int snap           = 32;  /* snap pixel */
-static const unsigned int gappih         = 10;  /* horiz inner gap between windows */
-static const unsigned int gappiv         = 10;  /* vert inner gap between windows */
+static const unsigned int gappih         = 15;  /* horiz inner gap between windows */
+static const unsigned int gappiv         = 15;  /* vert inner gap between windows */
 static const unsigned int gappoh         = 15;  /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov         = 15;  /* vert outer gap between windows and screen edge */
 static const int smartgaps_fact          = 0;   /* gap factor when there is only one client; 0 = no gaps, 3 = 3x outer gaps */
@@ -25,50 +25,50 @@ static int floatindicatortype            = INDICATOR_TOP_LEFT_SQUARE;
 static int fakefsindicatortype           = INDICATOR_PLUS;
 static int floatfakefsindicatortype      = INDICATOR_PLUS_AND_LARGER_SQUARE;
 static const int quit_empty_window_count = 0;   /* only allow dwm to quit if no (<= count) windows are open */
-static const char *fonts[]               = { "JetBrainsMono Nerd Font:size=14" };
-static const char dmenufont[]            = "JetBrainsMono:size=16";
+static const char *fonts[]               = { "JetBrainsMono Nerd Font:size=12" };
+static const char dmenufont[]            = "JetBrainsMono Nerd Font:size=18";
 
 static char c000000[]                    = "#000000"; // placeholder value
 
 static char normfgcolor[]                = "#181926";
 static char normbgcolor[]                = "#363a4f";
-static char normbordercolor[]            = "#8aadf4";
-static char normfloatcolor[]             = "#8aadf4";
+static char normbordercolor[]            = "#222222";
+static char normfloatcolor[]             = "#222222";
 
 static char selfgcolor[]                 = "#181926";
 static char selbgcolor[]                 = "#363a4f";
-static char selbordercolor[]             = "#ee99a0";
-static char selfloatcolor[]              = "#ee99a0";
+static char selbordercolor[]             = "#8aadf4";
+static char selfloatcolor[]              = "#8aadf4";
 
-static char titlenormfgcolor[]           = "#cad3f5";
+static char titlenormfgcolor[]           = "#363a4f";
 static char titlenormbgcolor[]           = "#222222";
-static char titlenormbordercolor[]       = "#8aadf4";
-static char titlenormfloatcolor[]        = "#8aadf4";
+static char titlenormbordercolor[]       = "#222222";
+static char titlenormfloatcolor[]        = "#222222";
 
 static char titleselfgcolor[]            = "#181926";
 static char titleselbgcolor[]            = "#363a4f";
-static char titleselbordercolor[]        = "#ee99a0";
-static char titleselfloatcolor[]         = "#ee99a0";
+static char titleselbordercolor[]        = "#8aadf4";
+static char titleselfloatcolor[]         = "#8aadf4";
 
-static char tagsnormfgcolor[]            = "#cad3f5";
-static char tagsnormbgcolor[]            = "#363a4f";
-static char tagsnormbordercolor[]        = "#8aadf4";
-static char tagsnormfloatcolor[]         = "#8aadf4";
+static char tagsnormfgcolor[]            = "#363a4f";
+static char tagsnormbgcolor[]            = "#222222";
+static char tagsnormbordercolor[]        = "#222222";
+static char tagsnormfloatcolor[]         = "#222222";
 
 static char tagsselfgcolor[]             = "#181926";
-static char tagsselbgcolor[]             = "#222222";
-static char tagsselbordercolor[]         = "#ee99a0";
-static char tagsselfloatcolor[]          = "#ee99a0";
+static char tagsselbgcolor[]             = "#363a4f";
+static char tagsselbordercolor[]         = "#8aadf4";
+static char tagsselfloatcolor[]          = "#8aadf4";
 
-static char hidnormfgcolor[]             = "#cad3f5";
+static char hidnormfgcolor[]             = "#cad3f5"; 
 static char hidselfgcolor[]              = "#181926";
 static char hidnormbgcolor[]             = "#222222";
 static char hidselbgcolor[]              = "#363a4f";
 
 static char urgfgcolor[]                 = "#181926";
 static char urgbgcolor[]                 = "#363a4f";
-static char urgbordercolor[]             = "#ee99a0";
-static char urgfloatcolor[]              = "#ee99a0";
+static char urgbordercolor[]             = "#8aadf4";
+static char urgfloatcolor[]              = "#8aadf4";
 
 
 
@@ -133,7 +133,7 @@ static char *colors[][ColCount] = {
  */
 static char *tagicons[][NUMTAGS] =
 {
-	[DEFAULT_TAGS]        = { "1  ", "2  ", "3  ", "4 󰢚 ", "5 󰄛 ", "6", "7", "8", "9" },
+	[DEFAULT_TAGS]        = { "1  ", "2  ", "3  ", "4 󰢚 ", "5 󰄛 "},
 	[ALTERNATIVE_TAGS]    = { "A", "B", "C", "D", "E", "F", "G", "H", "I" },
 	[ALT_TAGS_DECORATION] = { "<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>" },
 };
@@ -169,6 +169,10 @@ static const Rule rules[] = {
 	RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
 	RULE(.class = "scpad", .isfloating = 1)
+	RULE(.class = "pcmanfm", .isfloating = 1)
+	RULE(.class = "sxiv", .isfloating = 1)
+	RULE(.class = "feh", .isfloating = 1)
+	RULE(.class = "mpv", .isfloating = 1)
 //	RULE(.class = "Gimp", .tags = 1 << 4)
 //	RULE(.class = "Firefox", .tags = 1 << 7)
 };
@@ -214,8 +218,8 @@ static const Layout layouts[] = {
 
 
 /* key definitions */
-#define MODKEY Mod1Mask
-#define ALTMOD Mod4Mask
+#define MODKEY Mod4Mask
+#define ALTMOD Mod1Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -239,14 +243,16 @@ static const char *dmenucmd[] = {
 //	"-sf", selfgcolor,
 	NULL
 };
-static const char *termcmd[]  = { "kitty", NULL };
+static const char *termcmd[]  = { "alacritty", NULL };
+static const char *roficmd[] = { "rofi", "-show", "combi", "-display-combi", "*", NULL };
 
 
 
 static const Key keys[] = {
     /* modifier                     key        function        argument */
     // basic functions
-	{ MODKEY,                       XK_r,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_r,      spawn,          {.v = roficmd } },
+	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_q,      killclient,             {0} },
 	{ MODKEY|ShiftMask,             XK_q,      quit,                   {0} },
@@ -254,36 +260,48 @@ static const Key keys[] = {
     {0,               XF86XK_AudioRaiseVolume, spawn,          SHCMD("volset up") },
     {0,               XF86XK_AudioLowerVolume, spawn,          SHCMD("volset down") },
     {0,               XF86XK_AudioMute,        spawn,          SHCMD("volset mute") },
-	{ MODKEY|ALTMOD, XK_F1,          spawn,          SHCMD("volset max") },
+	{ MODKEY|ALTMOD|ShiftMask, XK_F1,          spawn,          SHCMD("volset max") },
     {0,               XK_Print,                spawn,          SHCMD("maimer cropped") },
     { ShiftMask,      XK_Print,                spawn,          SHCMD("maimer window") },
     //
     // personal shellscrips
     //
-	{ MODKEY|ShiftMask, XK_Return, spawn,        SHCMD("scratch scratchpad") },
-	{ MODKEY|ALTMOD, XK_b, spawn,        SHCMD("bookmarkmake") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_1, spawn,        SHCMD("scratch scratchpad") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_2, spawn,        SHCMD("rofibrowser") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_3, spawn,        SHCMD("bookmarkmake") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_4, spawn,        SHCMD("rofibookmarkbrowser") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_5, spawn,        SHCMD("rofisysopt") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_6, spawn,        SHCMD("scratch index") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_7, spawn,        SHCMD("timedate") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_8, spawn,        SHCMD("roficonfigs") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_9, spawn,        SHCMD("scratch music") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_0, spawn,        SHCMD("rofiplaylist") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_F2,spawn,        SHCMD("rofidwmview") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_F3,spawn,        SHCMD("rofidwmsend") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_F4,spawn,        SHCMD("rofikill") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_F5,spawn,        SHCMD("rofiwallpaperchange2") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_F6,spawn,        SHCMD("rofiwsearch") },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask, XK_F7,spawn,        SHCMD("scratch tox") },
     //
 	/* modifier                     key            function                argument */
 	{ MODKEY,                       XK_b,          togglebar,              {0} },
-	{ MODKEY,                       XK_o,          focusstack,             {.i = +1 } },
-	{ MODKEY,                       XK_p,          focusstack,             {.i = -1 } },
-	{ MODKEY,                       XK_Left,       focusdir,               {.i = 0 } }, // left
-	{ MODKEY,                       XK_Right,      focusdir,               {.i = 1 } }, // right
-	{ MODKEY,                       XK_Up,         focusdir,               {.i = 2 } }, // up
-	{ MODKEY,                       XK_Down,       focusdir,               {.i = 3 } }, // down
-	{ MODKEY,                       XK_i,          incnmaster,             {.i = +1 } },
-	{ MODKEY,                       XK_k,          incnmaster,             {.i = -1 } },
-	{ MODKEY,                       XK_h,          setmfact,               {.f = -0.05} },
-	{ MODKEY,                       XK_l,          setmfact,               {.f = +0.05} },
-	{ MODKEY|ControlMask,                       XK_Return,       zoom,                   {0} },
-	{ MODKEY,                       XK_Page_Up,    togglefloating,         {0} },
+	{ MODKEY,                       XK_space,          focusstack,             {.i = +1 } },
+	{ MODKEY,                       XK_t,          focusstack,             {.i = -1 } },
+	{ MODKEY,                       XK_j,       focusdir,               {.i = 0 } }, // left
+	{ MODKEY,                       XK_l,      focusdir,               {.i = 1 } }, // right
+	{ MODKEY,                       XK_i,         focusdir,               {.i = 2 } }, // up
+	{ MODKEY,                       XK_k,       focusdir,               {.i = 3 } }, // down
+	{ MODKEY,                       XK_Left,          setmfact,               {.f = -0.05} },
+	{ MODKEY,                       XK_Right,          setmfact,               {.f = +0.05} },
+	{ MODKEY,                       XK_u,       zoom,                   {0} },
+	{ MODKEY,                       XK_o,        cyclelayout,            {.i = +1 } },
+	{ MODKEY,                       XK_p,    togglefloating,         {0} },
 	{ MODKEY,                       XK_f,  togglefakefullscreen,   {0} },
 	{ MODKEY|ShiftMask,             XK_s,          togglesticky,           {0} },
 	{ MODKEY,                       XK_0,          view,                   {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,          tag,                    {.ui = ~0 } },
-//	{ MODKEY|ALTMOD|ShiftMask|ControlMask,         XK_F1,         focusmon,               {.i = +1 } },
-//	{ MODKEY|ALTMOD|ShiftMask,      XK_F2,         tagmon,                 {.i = +1 } },
-	{ MODKEY,                       XK_c,        cyclelayout,            {.i = +1 } },
+	{ MODKEY|ALTMOD|ShiftMask|ControlMask,         XK_F1,         focusmon,               {.i = +1 } },
+	{ MODKEY|ALTMOD|ShiftMask,      XK_F2,         tagmon,                 {.i = +1 } },
 	TAGKEYS(                        XK_1,                                  0)
 	TAGKEYS(                        XK_2,                                  1)
 	TAGKEYS(                        XK_3,                                  2)
@@ -294,6 +312,8 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                                  7)
 	TAGKEYS(                        XK_9,                                  8)
     ////// useless
+	{ 0, 0,          incnmaster,             {.i = +1 } },
+	{ 0, 0,          incnmaster,             {.i = -1 } },
 	{ 0, 0,          incrgaps,               {.i = +1 } },
 	{ 0, 0,          incrgaps,               {.i = -1 } },
 	{ 0, 0,          incrigaps,              {.i = +1 } },
